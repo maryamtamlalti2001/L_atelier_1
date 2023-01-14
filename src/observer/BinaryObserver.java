@@ -1,5 +1,7 @@
 package observer;
 
+import java.util.Observer;
+import java.util.Observable;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -20,7 +22,7 @@ public class BinaryObserver extends JFrame implements Observer, ActionListener {
 	   private JButton subscribe = new JButton("Subscribe-Me");
 	   private JButton unsubscribe = new JButton("Unsubscribe-Me");
 
-public BinaryObserver(Subject subject){
+   public BinaryObserver(Subject subject){
 	  super("Welcome to the Binary Observer!");
       this.subject = subject;
       this.setLayout(new FlowLayout());
@@ -41,12 +43,16 @@ public BinaryObserver(Subject subject){
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       this.setVisible(true); 
    }
-
-   @Override
-   public void update() {
-	   this.getLabel().setText( "State Binary Value : " 
-      + Integer.toBinaryString( subject.getState() ) ); 
+   
+   public void update(Observable o, Object arg) {
+   	// TODO Auto-generated method stub
+   	  this.getLabel().setText( "State Binary Value : " 
+   		      + Integer.toBinaryString( subject.getState() ) ); 
+   	
    }
+
+   
+   
 
 public JLabel getLabel() {
 	return label;
@@ -56,22 +62,24 @@ public void setLabel(JLabel label) {
 	this.label = label;
 }
 
+
+
 @Override
 public void actionPerformed(ActionEvent event) {
 	if (event.getSource() == subscribe) {
-		this.subject.subscribe(this);
 		this.subscribe.setEnabled(false);
 		this.unsubscribe.setEnabled(true);
 
 	}
 	
 	else if (event.getSource() == unsubscribe) {
-		this.subject.unsubscribe(this);
 		this.getLabel().setText( "State Binary Value : Undefined");
 		this.subscribe.setEnabled(true);
 		this.unsubscribe.setEnabled(false);
 
 	}
 }
+
+
 
 }
